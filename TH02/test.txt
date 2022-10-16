@@ -1,0 +1,2 @@
+This is a test file.
+As researchers at the Minnesota Department of Health in St. Paul were sequencing samples of the monkeypox virus a few months ago, they made a surprising discovery. In one sample collected from an infected person, a large chunk of the virus’s genome was missing.

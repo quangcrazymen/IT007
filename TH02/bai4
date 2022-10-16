@@ -1,0 +1,11 @@
+#!/bin/sh
+
+file="/home/quang/Code/IT007/TH02/test.txt"
+echo "Nhập vào chuỗi cần tìm:"
+read string
+if grep -q $string $file
+then
+    echo "Chuỗi có tồn tại"
+else
+    echo "Chuỗi không tồn tại"
+fi

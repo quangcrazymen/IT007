@@ -1,0 +1,8 @@
+#!/bin/sh
+# Bai1
+xinchao=Hello
+echo $xinchao
+echo "please input a number: "
+read number
+echo "Your number is "$number
+date>>log.time

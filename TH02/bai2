@@ -1,0 +1,12 @@
+#!/bin/sh
+echo "Nhập tên của bạn:"
+read ten
+echo "Nhập mã số sinh viên của bạn:"
+read mssv
+while [ $mssv != 20520720 ]
+do
+    echo "Hãy nhập lại MSSV:"
+    read mssv
+done
+echo "Xin chào bạn $ten có MSSV: $mssv"
+exit 0
