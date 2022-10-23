@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "thread-shared-types.h": "c",
+        "struct_mutex.h": "c",
+        "pthreadtypes.h": "c"
+    }
+}
