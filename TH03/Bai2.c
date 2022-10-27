@@ -12,7 +12,7 @@ int main()
     if (pid == 0)
     {
         num_coconuts = 42;
-        exit(0);
+        // exit(0);
     }
     else
     {

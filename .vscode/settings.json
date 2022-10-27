@@ -2,6 +2,8 @@
     "files.associations": {
         "thread-shared-types.h": "c",
         "struct_mutex.h": "c",
-        "pthreadtypes.h": "c"
+        "pthreadtypes.h": "c",
+        "pthread.h": "c",
+        "stdio.h": "c"
     }
 }
