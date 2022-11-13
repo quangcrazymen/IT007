@@ -1,94 +1,104 @@
 #include <iostream>
 #include <queue>
 using namespace std;
-struct Process {
+
+static float ave_turnaround_time = 0;
+static float ave_waiting_time = 0;
+class Process
+{
+public:
 	int name;
 	int burst_time;
 	int arrival_time;
-
 };
-static double ave_turnaround_time = 0;
-static double ave_waiting_time = 0;
-void swap(Process &p1, Process &p2) {
-	Process tmp;
-	tmp = p1;
-	p1 = p2;
-	p2 = tmp;
-}
-void sortByArrivalTime(Process *p, int n) {
-	for (int i = 0; i < n; i++)
-	{
-		for (int j = i + 1; j < n; j++)
-		{
-			if (p[i].arrival_time < p[j].arrival_time) {
-				swap(p[i], p[j]);
-			}
-			else{
-				if (p[i].arrival_time == p[j].arrival_time) {
-					if (p[i].burst_time < p[j].burst_time)
-					{
-						swap(p[i], p[j]);
-					}
 
+class sjf
+{
+public:
+	Process *p=new Process[100];;
+	void sortByArrivalTime(int n)
+	{
+		for (int i = 0; i < n; i++)
+		{
+			for (int j = i + 1; j < n; j++)
+			{
+				if (p[i].arrival_time < p[j].arrival_time)
+				{
+					swap(p[i], p[j]);
 				}
-			}			
-		}
-	}
-}
-
-void sortByBurstTime(Process *p, int n, int time_current) {
-	for (int i = 0; i < n - 1; i++)
-	{
-		for (int j = i + 1; j < n; j++)
-		{
-			if (p[i].burst_time < p[j].burst_time && p[i].arrival_time <= time_current) {
-				swap(p[i], p[j]);
+				else
+				{
+					// if processes have same arrival time
+					if (p[i].arrival_time == p[j].arrival_time)
+					{
+						if (p[i].burst_time < p[j].burst_time)
+						{
+							swap(p[i], p[j]);
+						}
+					}
+				}
 			}
 		}
 	}
-}
-
-void Input(Process *p, int n) {
-	for (int i = 0; i < n; i++) {
-		cout << "-----------------" << endl;
-		cout << "Nhap ID process: "; cin >> p[i].name;
-		cout << "Nhap burst time: "; cin >> p[i].burst_time;
-		cout << "Nhap arrival time: "; cin >> p[i].arrival_time;
-	
-	}
-}
-
-void SelectionFunction(Process *p, int n) {
-	int time_current;
-	int flag = 1;
-	// Sort theo thứ tự arrival time trước đã
-	sortByArrivalTime(p, n);
-	// Hàm lựa chọn quyết định xem process nào vào queue trước
-	for (int i = 0; i < n; n--)
+	void sortByBurstTime(int n, int current_time)
 	{
-		//pQueue.push(p[n - 1]);
-		if (flag == 1) { 
-			time_current = p[n - 1].arrival_time; 
-			flag = 0; 
+		for (int i = 0; i < n - 1; i++)
+		{
+			for (int j = i + 1; j < n; j++)
+			{
+				if (p[i].burst_time < p[j].burst_time && p[i].arrival_time <= current_time)
+				{
+					swap(p[i], p[j]);
+				}
+			}
 		}
-		time_current += p[n - 1].burst_time;
-		ave_waiting_time += time_current - p[n - 1].arrival_time - p[n - 1].burst_time;
-		ave_turnaround_time += (time_current - p[n - 1].arrival_time);
-		cout << p[n - 1].name << "            " << time_current - p[n - 1].arrival_time - p[n - 1].burst_time << "               " << time_current - p[n - 1].arrival_time - p[n - 1].burst_time << "            " << (time_current - p[n - 1].arrival_time) << endl;
-		sortByBurstTime(p, n - 1, time_current);
 	}
-}
+	void Input(int n)
+	{
+		for (int i = 0; i < n; i++)
+		{
+			cout << "-----------------" << endl;
+			cout << "Input ID process: ";
+			cin >> this->p[i].name;
+			cout << "Input arrival time: ";
+			cin >> this->p[i].arrival_time;
+			cout << "Input burst time: ";
+			cin >> this->p[i].burst_time;
+		}
+	}
+	void SelectionFunction(int n)
+	{
+		int current_time;
+		int flag = 1;
+		// Sort the arrival time to ascending order
+		sortByArrivalTime(n);
+		// select which process go into queue first 
+		for (int i = 0; i < n; n--)
+		{
+			if (flag == 1)
+			{
+				current_time = p[n - 1].arrival_time;
+				flag = 0;
+			}
+			current_time += p[n - 1].burst_time;
+			ave_waiting_time += current_time - p[n - 1].arrival_time - p[n - 1].burst_time;
+			ave_turnaround_time += (current_time - p[n - 1].arrival_time);
+			cout << p[n - 1].name << "\t\t\t" << current_time - p[n - 1].arrival_time - p[n - 1].burst_time << "\t\t\t" << current_time - p[n - 1].arrival_time - p[n - 1].burst_time << "\t\t\t" << (current_time - p[n - 1].arrival_time) << endl;
+			sortByBurstTime(n - 1, current_time);
+		}
+	}
+};
 
 int main()
 {
-	Process *p = new Process[100];
-	queue<Process> pQueue;
 	int n;
-	cout << "Nhap so luong process: "; cin >> n;
-	Input(p, n);
+	cout << "Number of processes: ";
+	cin >> n;
+	sjf a;
+	a.Input(n);
 	cout << "Process   Response-time   Waiting-time   Turn around-time" << endl;
-	SelectionFunction(p, n);
-	cout << "Thoi gian dap ung trung binh: " << ave_waiting_time / n << endl;
-	cout << "Thoi gian hoan thanh trung binh: " << ave_turnaround_time / n << endl;
+	a.SelectionFunction(n);
+	cout << "Average waiting time: " << ave_waiting_time / n << endl;
+	cout << "Average turnaround time: " << ave_turnaround_time / n << endl;
 	return 0;
 }

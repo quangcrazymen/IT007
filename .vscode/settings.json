@@ -4,6 +4,7 @@
         "struct_mutex.h": "c",
         "pthreadtypes.h": "c",
         "pthread.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "ostream": "cpp"
     }
 }
