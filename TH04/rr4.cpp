@@ -144,7 +144,7 @@ int main()
         quantum_step++;
     Queue = sche.SelectionFunction(n, quantum_time);
     sche.Print(Queue);
-    cout << "Thoi gian cho trung binh: " << ave_waiting_time / n << endl;
-    cout << "Thoi gian hoan thanh trung binh: " << ave_turnaround_time / n << endl;
+    cout << "Average waiting time: " << ave_waiting_time / n << endl;
+    cout << "Average turnaround time: " << ave_turnaround_time / n << endl;
     return 0;
 }

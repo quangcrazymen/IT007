@@ -8,6 +8,7 @@ void main()
     int arr[10], bur[10], star[10], finish[10], tat[10], wt[10], i, n;
     // total waiting time, total turnaround time
     int totwt = 0, tottat = 0;
+    float ave_waiting_time,ave_turnaround_time;
     printf("Enter the number of processes:");
     scanf("%d", &n);
     for (i = 0; i < n; i++)
@@ -39,4 +40,10 @@ void main()
         totwt += wt[i];
         tottat += tat[i];
     }
+    printf("\n");
+    ave_waiting_time = totwt*1.0/n;
+    ave_turnaround_time = tottat*1.0/n;
+
+    printf("Average wating time: %f\n",ave_waiting_time);
+    printf("Average turnaround time: %f\n",ave_turnaround_time);
 }

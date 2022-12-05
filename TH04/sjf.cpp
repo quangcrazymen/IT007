@@ -83,7 +83,9 @@ public:
 			current_time += p[n - 1].burst_time;
 			ave_waiting_time += current_time - p[n - 1].arrival_time - p[n - 1].burst_time;
 			ave_turnaround_time += (current_time - p[n - 1].arrival_time);
-			cout << p[n - 1].name << "\t\t\t" << current_time - p[n - 1].arrival_time - p[n - 1].burst_time << "\t\t\t" << current_time - p[n - 1].arrival_time - p[n - 1].burst_time << "\t\t\t" << (current_time - p[n - 1].arrival_time) << endl;
+			cout << p[n - 1].name << "\t\t\t" << current_time - p[n - 1].arrival_time - p[n - 1].burst_time << "\t\t\t" 
+			<< current_time - p[n - 1].arrival_time - p[n - 1].burst_time << "\t\t\t" 
+			<< (current_time - p[n - 1].arrival_time) << endl;
 			sortByBurstTime(n - 1, current_time);
 		}
 	}

@@ -22,11 +22,11 @@ public:
 		for (int i = 0; i < n; i++)
 		{
 			cout << "-----------------" << endl;
-			cout << "Nhap ID process: ";
+			cout << "Input ID process: ";
 			cin >> p[i].name;
-			cout << "Nhap arrival time: ";
+			cout << "Input arrival time: ";
 			cin >> p[i].arrival_time;
-			cout << "Nhap burst time: ";
+			cout << "Input burst time: ";
 			cin >> p[i].burst_time;
 		}
 	}
@@ -87,27 +87,25 @@ public:
 	void SelectionFunction( int n)
 	{
 		Process *p_temp = new Process[100];
-		int time_current = 0; // timeline chương trình
-		///
-		int flag_c = 1;			  // phòng trừ trường hợp không có process nào tới tại thời điểm 0
-		int flag_first_come[100]; // đánh dấu thời điểm được thực thi lần đầu
-		int flag_previous;		  // vị trí process vừa chạy trước đó
-		int flag_current;		  // vị trí process hiện đang chạy
-		int waiting_time[100];	  // tính thời gian chờ mỗi khi bị preemtive đến lúc được thực thi lại
-		/// khởi tạo các mảng tạm
+		int time_current = 0;
+
+		int flag_c = 1;			 
+		int flag_first_come[100];
+		int flag_previous;		 
+		int flag_current;		 
+		int waiting_time[100];	 
+	
 		for (int i = 0; i < 100; i++)
 		{
 			waiting_time[i] = 0;
-			flag_first_come[i] = -1; // -1 vì nếu sử dụng 0 để đánh dấu (flag chỉ cập nhật duy nhất 1 lần
-									 // ) thì sẽ có process đầu tiên có arrival time = 0 cập nhật 2 lần
+			flag_first_come[i] = -1; 							 
 		}
-		sortByArrivalTime(n); // chọn ra process có burst time min xếp ra phía cuối
+		sortByArrivalTime(n);
 		flag_first_come[p[n - 1].name] = p[n - 1].arrival_time;
-		// Duyệt từ cuối lên
+		
 		while (n > 0)
 		{
-			p[n - 1].burst_time--; // Xét từ từ chậm rãi
-			// tăng waiting time khi process đã đến hàng đợi mà chưa được thực thi
+			p[n - 1].burst_time--;
 			for (int i = 0; i < n; i++)
 			{
 				if (p[i].arrival_time <= time_current)
@@ -115,29 +113,29 @@ public:
 					waiting_time[p[i].name]++;
 				}
 			}
-			// Chừa thằng đang thực thi ra
 			waiting_time[p[n - 1].name]--;
-			// Trừ trường hợp ko có process nào đến lúc time_current = 0
+
 			if (flag_c == 1)
 			{
 				time_current = p[n - 1].arrival_time;
 				flag_c = 0;
 			}
 			time_current++;
-			flag_previous = p[n - 1].name; // Lưu tên process sắp rời/ có khả năng rời hàng đợi
-			// Nếu đã thực thi hết (không còn burst thì cout trạng thái
+			flag_previous = p[n - 1].name;
+
 			if (p[n - 1].burst_time == 0)
 			{
-				cout << p[n - 1].name << "\t\t\t\t" << flag_first_come[p[n - 1].name] - p[n - 1].arrival_time << "\t\t\t\t" << waiting_time[p[n - 1].name] << "\t\t\t\t" << (time_current - p[n - 1].arrival_time) << endl;
-				ave_waiting_time += waiting_time[p[n - 1].name]; // cộng dồn waiting time đã cộng nãy giờ
+				cout << p[n - 1].name << "\t\t\t\t" << flag_first_come[p[n - 1].name] - p[n - 1].arrival_time << "\t\t\t\t" 
+				<< waiting_time[p[n - 1].name] << "\t\t\t\t" << (time_current - p[n - 1].arrival_time) << endl;
+				ave_waiting_time += waiting_time[p[n - 1].name];
 				ave_turnaround_time += time_current - p[n - 1].arrival_time;
-				n--; // thu hẹp kích thước để xét những thằng còn lại
+				n--;
 				if (n == 0)
 					return;
 			}
-			ShortestRemainingTimeFirst(n, time_current, p[n - 1].burst_time); // chọn ra thằng có burst < burst còn lại của p[flag_current]
-			flag_current = p[n - 1].name;										 // cập nhập lại nếu có thằng nào đó thỏa cái trên
-			// nếu chuyển ngữ cảnh xảy ra
+			ShortestRemainingTimeFirst(n, time_current, p[n - 1].burst_time);
+			flag_current = p[n - 1].name;									
+
 			if (flag_current != flag_previous)
 			{
 				if (flag_first_come[p[n - 1].name] == -1)
@@ -153,7 +151,7 @@ int main()
 {
 	int n;
 	srtf sche;
-	cout << "Nhap so luong process: ";
+	cout << "Input number of processes: ";
 	cin >> n;
 	sche.Input(n);
 	cout << "Process   Response-time   Waiting-time   Turn around-time" << endl;
